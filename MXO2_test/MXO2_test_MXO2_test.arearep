@@ -1,0 +1,67 @@
+----------------------------------------------------------------------
+Report for cell top.TECH
+Register bits:  279 of 4635 (6.019%)
+I/O cells:      33
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                 BB         1          100.0
+                              CCU2D        64          100.0
+                            EHXPLLJ         1          100.0
+                            FD1P3AY        11          100.0
+                            FD1P3IX        69          100.0
+                            FD1P3JX         6          100.0
+                            FD1S3AX        56          100.0
+                            FD1S3IX       107          100.0
+                            FD1S3JX        30          100.0
+                                GSR         1          100.0
+                                 IB         7          100.0
+                            L6MUX21         9          100.0
+                               LUT4       525          100.0
+                                 OB        25          100.0
+                              PFUMX        92          100.0
+SUB MODULES
+                          I2C_SLAVE         1
+                    clk_div(N=1000)         1
+                 clk_div(N=1000)_U0         1
+                             my_pll         1
+                              TOTAL      1008
+----------------------------------------------------------------------
+Report for cell my_pll.v1
+Instance Path : my_pll_inst
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                            EHXPLLJ         1          100.0
+                              TOTAL         1
+----------------------------------------------------------------------
+Report for cell clk_div(N=1000).v1
+Instance Path : clk_div_inst_2
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                              CCU2D        32           50.0
+                            FD1S3IX        32           29.9
+                               LUT4        15            2.9
+                              TOTAL        79
+----------------------------------------------------------------------
+Report for cell clk_div(N=1000)_U0.v1
+Instance Path : clk_div_inst_1
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                              CCU2D        32           50.0
+                            FD1S3IX        32           29.9
+                               LUT4        15            2.9
+                              TOTAL        79
+----------------------------------------------------------------------
+Report for cell I2C_SLAVE.v1
+Instance Path : U_I2C_SLAVE
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                            FD1P3AY        11          100.0
+                            FD1P3IX        69          100.0
+                            FD1P3JX         6          100.0
+                            FD1S3AX        56          100.0
+                            FD1S3IX        43           40.2
+                            FD1S3JX        30          100.0
+                            L6MUX21         9          100.0
+                               LUT4       493           93.9
+                              PFUMX        92          100.0
+                              TOTAL       809

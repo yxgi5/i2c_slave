@@ -1,0 +1,212 @@
+#Start recording tcl command: 12/2/2019 09:26:51
+#Project Location: /home/andy/workdir/MXO2_test; Project name: MXO2_test
+prj_project new -name "MXO2_test" -impl "MXO2_test" -dev LCMXO2-4000HC-4MG132C -synthesis "lse"
+prj_project save
+prj_src add "/home/andy/workdir/MXO2_test/top.v"
+prj_src add "/home/andy/workdir/MXO2_test/my_pll.ipx"
+prj_run Map -impl MXO2_test
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_src add "/home/andy/workdir/MXO2_test/clk_div.v"
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_src add -exclude "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_src enable "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+pgr_program run
+pgr_program run
+pgr_program run
+pgr_program run
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+pgr_project close
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_project open "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+pgr_program run
+prj_src add "/home/andy/workdir/MXO2_test/I2C_SLAVE.v"
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis -forceOne
+prj_run Map -impl MXO2_test
+pgr_project close
+pgr_project open "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Map -impl MXO2_test
+prj_run Map -impl MXO2_test
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task TimingSimFileVHD
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+pgr_program run
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Map -impl MXO2_test
+prj_run Map -impl MXO2_test
+prj_run Map -impl MXO2_test -forceOne
+prj_run Synthesis -impl MXO2_test -forceOne
+prj_run Synthesis -impl MXO2_test -task Lattice_Synthesis
+prj_run Map -impl MXO2_test
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Map -impl MXO2_test
+prj_run Map -impl MXO2_test
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Map -impl MXO2_test -forceOne
+prj_run Map -impl MXO2_test
+prj_run Map -impl MXO2_test -forceOne
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Jedecgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Jedecgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+prj_run Export -impl MXO2_test -task Bitgen
+pgr_program run
+pgr_project save "/home/andy/workdir/MXO2_test/MXO2_test/MXO2_test.xcf"
+prj_project save
+prj_project close
+#Stop recording: 12/2/2019 20:02:44

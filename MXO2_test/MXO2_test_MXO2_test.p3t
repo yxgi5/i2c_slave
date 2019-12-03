@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "MXO2_test_MXO2_test.log"
+-o "MXO2_test_MXO2_test.csv"
+-pr "MXO2_test_MXO2_test.prf"

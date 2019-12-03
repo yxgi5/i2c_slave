@@ -1,0 +1,41 @@
+NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
+NOTE All Rights Reserved *
+NOTE DATE CREATED: Tue Dec  3 09:34:03 2019 *
+NOTE DESIGN NAME: top *
+NOTE DEVICE NAME: LCMXO2-4000HC-4CSBGA132 *
+NOTE PIN ASSIGNMENTS *
+NOTE PINS pdata[15] : N8 : out *
+NOTE PINS i2c_sda : B8 : inout *
+NOTE PINS pdata[14] : P8 : out *
+NOTE PINS pdata[13] : N7 : out *
+NOTE PINS pdata[12] : P7 : out *
+NOTE PINS pdata[11] : N6 : out *
+NOTE PINS pdata[10] : P6 : out *
+NOTE PINS pdata[9] : N5 : out *
+NOTE PINS pdata[8] : L3 : out *
+NOTE PINS pdata[7] : K3 : out *
+NOTE PINS pdata[6] : K2 : out *
+NOTE PINS pdata[5] : J3 : out *
+NOTE PINS pdata[4] : J2 : out *
+NOTE PINS pdata[3] : H3 : out *
+NOTE PINS pdata[2] : G3 : out *
+NOTE PINS pdata[1] : F3 : out *
+NOTE PINS pdata[0] : E3 : out *
+NOTE PINS IDLE_S : N13 : out *
+NOTE PINS READCTRL_S : M12 : out *
+NOTE PINS READREG_S : P12 : out *
+NOTE PINS READ_S : M11 : out *
+NOTE PINS WRITE_S : P11 : out *
+NOTE PINS STOP_S : N10 : out *
+NOTE PINS debug : P9 : out *
+NOTE PINS clk_out_1 : E12 : out *
+NOTE PINS clk_out_2 : F12 : out *
+NOTE PINS clk_in : C1 : in *
+NOTE PINS reset_n : L14 : in *
+NOTE PINS i2c_scl : C8 : in *
+NOTE PINS rd_en : J12 : in *
+NOTE PINS paddr[2] : K13 : in *
+NOTE PINS paddr[1] : K14 : in *
+NOTE PINS paddr[0] : K12 : in *
+NOTE CONFIGURATION MODE: NONE *
+NOTE COMPRESSION: on *
