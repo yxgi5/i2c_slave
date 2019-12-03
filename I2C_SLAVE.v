@@ -13,29 +13,8 @@ module I2C_SLAVE #
 
     RD_EN,                                      //
     ADD_IN,                                     // 
-    DAT_OUT,                                    //
-	
-    IDLE_S,
-    READCTRL_S,
-	READREG_S,
-    READ_S,
-    WRITE_S,
-	STOP_S,
-	
-	debug
-
-//    MCLK_SPEED,                                 //
-//    MCLK_MODE,                                  //
-//    ROWS_DELAY,                                 //
-//    IDLE_MODE                                   //
+    DAT_OUT                                     //
 )/* synthesis syn_preserve=1 */;
-
-//parameter                   S_IDLE      = 4'd0;
-//parameter                   S_START     = 4'd1;
-//parameter                   S_INDEX     = 4'd2;
-//parameter                   S_READ      = 4'd3;
-//parameter                   S_DATE      = 4'd4;
-//parameter                   S_STOP      = 4'd5;
 
 input                       CLOCK;
 input                       RESET;
@@ -44,7 +23,6 @@ inout                       SDA;
 wire                        CLOCK  /* synthesis syn_keep = 1 */;
 wire                        RESET  /* synthesis syn_keep = 1 */;
 wire                        SCL  /* synthesis syn_keep = 1 */;
-//wire                        SDA;
 
 input                       RD_EN;
 wire                        RD_EN /* synthesis syn_keep = 1 */;
@@ -52,37 +30,6 @@ input   [2:0]               ADD_IN;
 wire    [2:0]               ADD_IN /* synthesis syn_keep = 1 */;
 output  [15:0]              DAT_OUT;
 reg     [15:0]              DAT_OUT /* synthesis syn_keep = 1 */;
-
-output                      debug;
-reg                         debug;
-
-
-//output    I_SDA_DEB;
-//output    I_SCL_DEB;
-//output    I_SDA_DEB_1;
-//output    I_SCL_DEB_1;
-//output    I_SDA_OUT_OE;
-output    IDLE_S;
-output    READCTRL_S;
-output	  READREG_S;
-output    READ_S;
-output    WRITE_S;
-output	  STOP_S;
-reg    IDLE_S;
-reg    READCTRL_S;
-reg    READREG_S;
-reg    READ_S;
-reg    WRITE_S;
-reg    STOP_S;
-
-//output                      MCLK_SPEED;
-//output                      IDLE_MODE;
-//output  [1:0]               MCLK_MODE;
-//output  [4:0]               ROWS_DELAY;
-//wire                        MCLK_SPEED /* synthesis syn_keep = 1 */;
-//wire                        IDLE_MODE /* synthesis syn_keep = 1 */;
-//wire    [1:0]               MCLK_MODE /* synthesis syn_keep = 1 */;
-//wire    [4:0]               ROWS_DELAY /* synthesis syn_keep = 1 */;
 
 reg                         I_SDA_ACK_OUT /* synthesis syn_keep = 1 */;
 wire                        I_SDA_IN /* synthesis syn_keep = 1 */;
@@ -207,14 +154,11 @@ begin
         I_SCL_PIPE <= {DEBOUNCE_LEN{1'b1}};
         I_SCL_DEB <= 1'b1;
         I_SCL_DEB_1 <= 1'b1;
-        //I_SREG_SDA_OUT <= 8'b0;
-		//debug <= 1'b1;
     end
     else
     begin
         I_SDA_PIPE <= {I_SDA_PIPE[DEBOUNCE_LEN-2:0], I_SDA_IN}; // bit shift
         I_SCL_PIPE <= {I_SCL_PIPE[DEBOUNCE_LEN-2:0], SCL};      // bit shift
-		//debug <= SDA;
         if (&I_SCL_PIPE[DEBOUNCE_LEN-1:1] == 1'b1)
         begin
             I_SCL_DEB <= 1'b1;
@@ -246,19 +190,13 @@ begin
         I_START_FF      <= 1'b0;
         I_START_FF_1    <= 1'b0;
         I_START_EDGE_CNT <= 2'b0;
-		//debug <= 1'b1;
     end
     else
     begin
         I_START_FF_1    <= I_START_FF;
-//        if (I_START_EDGE)
-//        begin
-//            debug <= ~debug;
-//        end
-        
+       
         if (I_SCL_HIGH & I_SDA_FALL)
         begin
-			//debug <= 1'b0;
             I_START_FF  <= 1'b1;
             if(I_START_EDGE_CNT<2)
             begin
@@ -284,10 +222,7 @@ always @ (posedge CLOCK)
 begin
     if(RESET == 1'b1)
     begin
-        //I_WR_VAL        <= 8'h00;
-        //I_RD_VAL        <= 8'h00;
         I_REG_ADDR      <= 8'h00;
-        //I_REG_ADDR_1    <= 8'h00;
         I_CTRL_BYTE     <= 8'h00;
         I_SDA_DATA      <= 8'h00;
         I_SDA_OUT_OE    <= 1'b0;
@@ -303,26 +238,11 @@ begin
         I_WR_OP         <= 1'b0;
         I_RD_OP         <= 1'b0;
         I_SREG_SDA_OUT  <= 8'b0;
-		debug <= 1'b1;
-		
-		IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b1;
     end
     else
     case(ST_FSM_STATE)
     S_IDLE:
     begin
-		IDLE_S<= 1'b0;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b1;
-		
         if(I_START_EDGE)
         begin
             ST_FSM_STATE    <= S_READCTRL;
@@ -337,20 +257,12 @@ begin
     end
     S_READCTRL:
     begin
-	    IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b0;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b1;
-	
         if(FF == 1'b0) 
         begin
             shift8in(I_CTRL_BYTE, 1'b1);
         end
         else if(I_CTRL_BYTE==HardWriteAddress)
         begin
-			//debug <= 1'b0;
             if(I_START_EDGE_CNT==0)
             begin
                 ST_FSM_STATE    <= S_IDLE;
@@ -365,14 +277,12 @@ begin
         end
         else if(I_CTRL_BYTE==HardReadAddress)
         begin
-			//debug <= 1'b0;
             if(I_START_EDGE_CNT==0)
             begin
                 ST_FSM_STATE    <= S_IDLE;
             end
             else
             begin
-                //I_RD_VAL        <= 8'b0;
                 I_WR_OP         <= 0;
                 I_RD_OP         <= 1;
                 if(I_RD_OP)
@@ -394,13 +304,6 @@ begin
 
     S_READREG:
     begin
-	    IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b0;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b1;
-		
         if(FF == 0) 
         begin
             shift8in(I_REG_ADDR, 1'b0);
@@ -412,20 +315,11 @@ begin
             I_SDA_DATA      <= 8'h00;
             sh8in_state     <= sh8in_begin;
             FF              <= 0;
-            //I_REG_ADDR_1    <= I_REG_ADDR;   // for output
         end
     end
 
     S_WRITE:
     begin
-		IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b0;
-		STOP_S<= 1'b1;
-		
-
         if(FF == 0) 
         begin
             if(I_START_EDGE_CNT==2)
@@ -442,7 +336,6 @@ begin
         begin
             I_WR_OP         <= 1;
             I_RD_OP         <= 0;
-            //I_WR_VAL        <= I_SDA_DATA;
             
             if(I_WR_OP)
             begin
@@ -455,20 +348,11 @@ begin
 
     S_READ:
     begin
-		IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b0;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b1;
-		
-		
         if(FF == 0) 
         begin
             if(RFF == 0)
             begin
                 I_SREG_SDA_OUT  <= I_RD_VAL;
-                //debug <= I_RD_VAL[0];
                 RFF <= 1;
             end
             else
@@ -485,12 +369,6 @@ begin
 
     S_STOP:
     begin
-		IDLE_S<= 1'b1;
-		READCTRL_S<= 1'b1;
-		READREG_S<= 1'b1;
-		READ_S<= 1'b1;
-		WRITE_S<= 1'b1;
-		STOP_S<= 1'b0;
         I_REG_ADDR      <= 8'h00;
         I_CTRL_BYTE     <= 8'h00;
         I_SDA_DATA      <= 8'h00;
@@ -628,9 +506,6 @@ begin
             sh8in_state  <= sh8in_begin;
             FF              <= 1'b0;
             ST_FSM_STATE    <= S_IDLE;
-            //debug <= 1'b0;
-            //debug <= I_START_EDGE_CNT[0];
-            //debug <= I_START_EDGE_CNT[0];
         end
 
         if(I_SCL_RISE) 
@@ -721,7 +596,6 @@ endtask
 //------------------------------ 并行数据转换为串行数据任务 ---------------------------
 task shift8_out;
 begin
-    //debug <= I_SREG_SDA_OUT[0];
     case(sh8out_state)
     
     sh8out_bit7:
@@ -851,7 +725,6 @@ begin
     end
 
     endcase
-    //debug <= I_SREG_SDA_OUT[0];     
 end 
 endtask
 
@@ -881,22 +754,11 @@ begin
         ROReg1      <=   8'h20; // RO, default 0x20
         ROReg2      <=   8'h30; // RO, default 0x30
         ROReg3      <=   8'h40; // RO, default 0x40
-        //debug <= 1'b1;
     end
     else
     begin
-        //debug <= ROReg0[0];
         if (I_RD_OP == 1'b1) // --- I2C Read
         begin
-            //if(!I_REG_ADDR[3])
-            //begin
-               //debug <= 1'b0; 
-            //end
-
-            //debug <= 1'b0;
-            //debug <= I_REG_ADDR[3];
-            //debug <= ROReg0[0];
-
             case (I_REG_ADDR)
             8'h00: I_RD_VAL <= RAM[0][15:8];  
             8'h01: I_RD_VAL <= RAM[0][7:0];  
@@ -912,12 +774,9 @@ begin
             8'h0b: I_RD_VAL <= ROReg3; 
             default: I_RD_VAL <= 8'hFF; // i2c读非法内部地址, 返回0xff
             endcase
-
-            //debug <= I_RD_VAL[0];
         end
         else if (I_WR_OP == 1'b1) // --- I2C Write
         begin
-            //debug <= 1'b0;
             case (I_REG_ADDR)
             8'h00: RAM[0][15:8] <= I_SDA_DATA;  //  high byte
             8'h01: RAM[0][7:0] <= I_SDA_DATA;   //  low byte
