@@ -1,15 +1,15 @@
 //`default_nettype none 
 module I2C_SLAVE # 
 ( 
-	parameter   I2C_SLAVE_ADDR  = 8'b01010000,   // i2c bus addr
+    parameter   I2C_SLAVE_ADDR  = 8'b01010000,   // i2c bus addr
     parameter   DEBOUNCE_LEN    = 10            // 10 ticks = 208nS @ 48MHz
     // TODO: implement sample delay
 ) 
 (      
     CLOCK,                                      // 48MHz system clock
     RESET,                                      // reset active high
-	SCL,
-	SDA,
+    SCL,
+    SDA,
 
     RD_EN,                                      //
     ADD_IN,                                     // 
@@ -72,7 +72,7 @@ wire                        I_STOP_EDGE /* synthesis syn_keep = 1 */;
 reg     [1:0]               I_START_EDGE_CNT /* synthesis syn_keep = 1 */;
 //enum bit {RD_OP,WR_OP}      I_WR_OP;//1bit宽，2值数据类型
 parameter HardWriteAddress = I2C_SLAVE_ADDR;
-parameter HardReadAddress  = I2C_SLAVE_ADDR | 1'b1;		
+parameter HardReadAddress  = I2C_SLAVE_ADDR | 1'b1;        
 
 
 parameter    S_IDLE     =3'b000;
@@ -93,7 +93,7 @@ reg [1:0]   ackout_state /* synthesis syn_keep = 1 */;
 parameter   sh8out_bit7 = 4'b0000;
 parameter   sh8out_bit6 = 4'b0001;
 parameter   sh8out_bit5 = 4'b0010;
-parameter   sh8out_bit4 = 4'b0011;		
+parameter   sh8out_bit4 = 4'b0011;        
 parameter   sh8out_bit3 = 4'b0100;
 parameter   sh8out_bit2 = 4'b0101;
 parameter   sh8out_bit1 = 4'b0110;
@@ -105,7 +105,7 @@ parameter   sh8out_end  = 4'b1000;
 parameter   sh8in_begin    = 4'b0000;
 parameter   sh8in_bit7     = 4'b0001;
 parameter   sh8in_bit6     = 4'b0010;
-parameter   sh8in_bit5     = 4'b0011;		
+parameter   sh8in_bit5     = 4'b0011;        
 parameter   sh8in_bit4     = 4'b0100;
 parameter   sh8in_bit3     = 4'b0101;
 parameter   sh8in_bit2     = 4'b0110;
@@ -372,7 +372,7 @@ begin
         I_REG_ADDR      <= 8'h00;
         I_CTRL_BYTE     <= 8'h00;
         I_SDA_DATA      <= 8'h00;
-		
+        
         if(I_START_EDGE_CNT==0)
         begin
             ST_FSM_STATE    <= S_IDLE;
@@ -389,11 +389,11 @@ begin
     end
 
     endcase
-	
-	if (I_STOP_EDGE)
-	begin
-		ST_FSM_STATE <= S_IDLE;
-	end
+    
+    if (I_STOP_EDGE)
+    begin
+        ST_FSM_STATE <= S_IDLE;
+    end
 end
 
 //------------------------串行数据转换为并行数据任务----------------------------------
@@ -405,14 +405,14 @@ begin
     
     sh8in_begin:
     begin
-	   	sh8in_state <= sh8in_bit7;
+           sh8in_state <= sh8in_bit7;
     end
     
     sh8in_bit7:
     begin
         if(I_SCL_RISE)   
         begin 
-            shift[7] <= I_SDA_DEB;	
+            shift[7] <= I_SDA_DEB;    
             sh8in_state     <= sh8in_bit6;
         end
         else
@@ -437,7 +437,7 @@ begin
     sh8in_bit5:
     begin
         if(I_SCL_RISE) 
-        begin	
+        begin    
             shift[5] <= I_SDA_DEB;
             sh8in_state     <= sh8in_bit4;
         end
@@ -450,7 +450,7 @@ begin
     sh8in_bit4:
     begin
         if(I_SCL_RISE) 
-        begin	
+        begin    
             shift[4] <= I_SDA_DEB;
             sh8in_state     <= sh8in_bit3;
         end
@@ -468,7 +468,7 @@ begin
             sh8in_state     <= sh8in_bit2;
         end
         else
-        begin 		
+        begin         
             sh8in_state <= sh8in_bit3; 
         end    
     end
@@ -481,7 +481,7 @@ begin
             sh8in_state     <= sh8in_bit1;
         end
         else
-        begin 		
+        begin         
             sh8in_state <= sh8in_bit2;  
         end
     end
@@ -494,7 +494,7 @@ begin
             sh8in_state     <= sh8in_bit0;
         end
         else
-        begin 		
+        begin         
             sh8in_state <= sh8in_bit1;  
         end
     end
@@ -509,13 +509,13 @@ begin
         end
 
         if(I_SCL_RISE) 
-        begin	
+        begin    
             shift[0] <= I_SDA_DEB;
             sh8in_state     <= sh8in_ack;
             ackout_state   <= ack_begin;
         end
         else
-        begin		
+        begin        
             sh8in_state <= sh8in_bit0;
         end
     end
@@ -539,17 +539,17 @@ begin
             sh8in_state <= sh8in_bit7; 
         end 
         //else
-        //begin 		
+        //begin         
             //sh8in_state  <= sh8in_end;
         //end
     end
 
     default:
     begin
-		  //link_read    <= NO;
-		  //sh8in_state  <= sh8in_bit7;
+          //link_read    <= NO;
+          //sh8in_state  <= sh8in_bit7;
         sh8in_state  <= sh8in_begin;
-	end
+    end
     
     endcase  
 end  
@@ -603,11 +603,11 @@ begin
         I_RD_OE         <= 1'b1;
         I_SDA_OUT_OE    <= 1'b1;
         //if(I_SCL_FALL)
-        //begin	
+        //begin    
             sh8out_state    <= sh8out_bit6;
         //end   
         //else
-        //begin  	
+        //begin      
             //sh8out_state <= sh8out_bit7;            
         //end
     end
@@ -618,7 +618,7 @@ begin
         begin 
             sh8out_state  <= sh8out_bit5; 
             I_SREG_SDA_OUT    <= I_SREG_SDA_OUT<<1;
-        end		 
+        end         
         else
         begin
             sh8out_state <= sh8out_bit6;
@@ -633,7 +633,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1;
         end   
         else
-        begin		
+        begin        
             sh8out_state <= sh8out_bit5;
         end
     end
@@ -646,7 +646,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1;
         end    
         else
-        begin		
+        begin        
             sh8out_state <= sh8out_bit4;
         end
     end
@@ -659,7 +659,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
         else
-        begin		
+        begin        
             sh8out_state <= sh8out_bit3;
         end
     end
@@ -674,19 +674,19 @@ begin
 
         end    
         else
-        begin		
+        begin        
             sh8out_state <= sh8out_bit2;
         end
     end
 
     sh8out_bit1: 
     begin
-        if(I_SCL_FALL)	
+        if(I_SCL_FALL)    
         begin 
             sh8out_state <= sh8out_bit0; 
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
-        else 		
+        else         
         begin
             sh8out_state <= sh8out_bit1;
         end
@@ -694,13 +694,13 @@ begin
 
     sh8out_bit0: 
     begin
-        if(I_SCL_FALL)	
+        if(I_SCL_FALL)    
         begin 
             sh8out_state <= sh8out_end; 
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
         else
-        begin 	
+        begin     
             sh8out_state <= sh8out_bit0;
         end
     end
@@ -708,7 +708,7 @@ begin
     sh8out_end: 
     begin
         if(I_SCL_FALL) 
-        begin	
+        begin    
             I_RD_OE         <= 1'b0;
             I_SDA_OUT_OE    <= 1'b0;
             FF              <= 1;
