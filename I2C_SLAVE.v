@@ -13,7 +13,22 @@ module I2C_SLAVE #
 
     RD_EN,                                      //
     ADD_IN,                                     // 
-    DAT_OUT                                     //
+    DAT_OUT,                                    //
+	
+    I_SDA_DEB,
+    I_SCL_DEB,
+    I_SDA_DEB_1,
+    I_SCL_DEB_1,
+    I_SDA_OUT_OE,
+
+    IDLE_S,
+    READCTRL_S,
+    READREG_S,
+    READ_S,
+    WRITE_S,
+    STOP_S,
+
+    debug
 )/* synthesis syn_preserve=1 */;
 
 input                       CLOCK;
@@ -30,6 +45,27 @@ input   [2:0]               ADD_IN;
 wire    [2:0]               ADD_IN /* synthesis syn_keep = 1 */;
 output  [15:0]              DAT_OUT;
 reg     [15:0]              DAT_OUT /* synthesis syn_keep = 1 */;
+
+output                      debug;
+reg                         debug = 1'b1;
+
+output    I_SDA_DEB;
+output    I_SCL_DEB;
+output    I_SDA_DEB_1;
+output    I_SCL_DEB_1;
+output    I_SDA_OUT_OE;
+output    IDLE_S;
+output    READCTRL_S;
+output	  READREG_S;
+output    READ_S;
+output    WRITE_S;
+output	  STOP_S;
+reg    IDLE_S;
+reg    READCTRL_S;
+reg    READREG_S;
+reg    READ_S;
+reg    WRITE_S;
+reg    STOP_S;
 
 reg                         I_SDA_ACK_OUT /* synthesis syn_keep = 1 */;
 wire                        I_SDA_IN /* synthesis syn_keep = 1 */;
@@ -72,7 +108,7 @@ wire                        I_STOP_EDGE /* synthesis syn_keep = 1 */;
 reg     [1:0]               I_START_EDGE_CNT /* synthesis syn_keep = 1 */;
 //enum bit {RD_OP,WR_OP}      I_WR_OP;//1bit宽，2值数据类型
 parameter HardWriteAddress = I2C_SLAVE_ADDR;
-parameter HardReadAddress  = I2C_SLAVE_ADDR | 1'b1;        
+parameter HardReadAddress  = I2C_SLAVE_ADDR | 1'b1;
 
 
 parameter    S_IDLE     =3'b000;
@@ -93,7 +129,7 @@ reg [1:0]   ackout_state /* synthesis syn_keep = 1 */;
 parameter   sh8out_bit7 = 4'b0000;
 parameter   sh8out_bit6 = 4'b0001;
 parameter   sh8out_bit5 = 4'b0010;
-parameter   sh8out_bit4 = 4'b0011;        
+parameter   sh8out_bit4 = 4'b0011;
 parameter   sh8out_bit3 = 4'b0100;
 parameter   sh8out_bit2 = 4'b0101;
 parameter   sh8out_bit1 = 4'b0110;
@@ -105,7 +141,7 @@ parameter   sh8out_end  = 4'b1000;
 parameter   sh8in_begin    = 4'b0000;
 parameter   sh8in_bit7     = 4'b0001;
 parameter   sh8in_bit6     = 4'b0010;
-parameter   sh8in_bit5     = 4'b0011;        
+parameter   sh8in_bit5     = 4'b0011;
 parameter   sh8in_bit4     = 4'b0100;
 parameter   sh8in_bit3     = 4'b0101;
 parameter   sh8in_bit2     = 4'b0110;
@@ -154,11 +190,13 @@ begin
         I_SCL_PIPE <= {DEBOUNCE_LEN{1'b1}};
         I_SCL_DEB <= 1'b1;
         I_SCL_DEB_1 <= 1'b1;
+        //debug <= 1'b1;
     end
     else
     begin
         I_SDA_PIPE <= {I_SDA_PIPE[DEBOUNCE_LEN-2:0], I_SDA_IN}; // bit shift
         I_SCL_PIPE <= {I_SCL_PIPE[DEBOUNCE_LEN-2:0], SCL};      // bit shift
+        //debug <= SDA;
         if (&I_SCL_PIPE[DEBOUNCE_LEN-1:1] == 1'b1)
         begin
             I_SCL_DEB <= 1'b1;
@@ -190,13 +228,20 @@ begin
         I_START_FF      <= 1'b0;
         I_START_FF_1    <= 1'b0;
         I_START_EDGE_CNT <= 2'b0;
+        //debug <= 1'b1;
     end
     else
     begin
         I_START_FF_1    <= I_START_FF;
-       
+
+//        if (I_START_EDGE)
+//        begin
+//            debug <= ~debug;
+//        end
+        
         if (I_SCL_HIGH & I_SDA_FALL)
         begin
+            //debug <= 1'b0;
             I_START_FF  <= 1'b1;
             if(I_START_EDGE_CNT<2)
             begin
@@ -205,6 +250,7 @@ begin
         end
         else if (I_SCL_HIGH & I_SDA_RISE )
         begin
+            //debug <= 1'b0;
             I_START_FF      <= 1'b0;
             I_START_EDGE_CNT <= 2'b0;
         end
@@ -238,11 +284,26 @@ begin
         I_WR_OP         <= 1'b0;
         I_RD_OP         <= 1'b0;
         I_SREG_SDA_OUT  <= 8'b0;
+        debug <= 1'b1;
+
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b1;
     end
     else
     case(ST_FSM_STATE)
     S_IDLE:
     begin
+        IDLE_S<= 1'b0;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b1;
+
         if(I_START_EDGE)
         begin
             ST_FSM_STATE    <= S_READCTRL;
@@ -257,12 +318,179 @@ begin
     end
     S_READCTRL:
     begin
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b0;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b1;
+
+        //debug <= 1'b0;
+
         if(FF == 1'b0) 
         begin
-            shift8in(I_CTRL_BYTE, 1'b1);
+            //shift8in(I_CTRL_BYTE, 1'b1);
+
+            case(sh8in_state)
+
+            sh8in_begin:
+            begin
+                sh8in_state <= sh8in_bit7;
+            end
+            
+            sh8in_bit7:
+            begin
+                if(I_SCL_RISE)   
+                begin 
+                    I_CTRL_BYTE[7] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit6;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit7;
+                end
+            end
+            
+            sh8in_bit6:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_CTRL_BYTE[6] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit5;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit6;
+                end
+            end
+
+            sh8in_bit5:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_CTRL_BYTE[5] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit4;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit5;
+                end
+            end
+                         
+            sh8in_bit4:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_CTRL_BYTE[4] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit3;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit4;
+                end
+            end
+                    
+            sh8in_bit3:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_CTRL_BYTE[3] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit2;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit3; 
+                end    
+            end
+
+            sh8in_bit2:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_CTRL_BYTE[2] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit1;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit2;  
+                end
+            end
+
+            sh8in_bit1:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_CTRL_BYTE[1] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit0;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit1;  
+                end
+            end
+          
+            sh8in_bit0:
+            begin
+                //if ((ctrl) && ({I_CTRL_BYTE[7:1], 1'b0} !=HardWriteAddress))
+                if ({I_CTRL_BYTE[7:1], 1'b0} !=HardWriteAddress)
+                begin
+                    sh8in_state  <= sh8in_begin;
+                    FF              <= 1'b0;
+                    ST_FSM_STATE    <= S_IDLE;
+                    //debug <= 1'b0;
+                    //debug <= I_START_EDGE_CNT[0];
+                    //debug <= I_START_EDGE_CNT[0];
+                end
+
+                if(I_SCL_RISE) 
+                begin
+                    I_CTRL_BYTE[0] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_ack;
+                    ackout_state   <= ack_begin;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit0;
+                end
+            end
+
+            sh8in_ack:
+            begin
+                ack_out;
+                if(ackout_state == ack_end)
+                begin
+                    sh8in_state <= sh8in_end;
+                    ackout_state <= ack_begin;
+                end
+            end
+
+            sh8in_end:
+            begin
+                //if(I_SCL_RISE)
+                begin 
+                    //link_read   <= YES;
+                    FF          <=  1;                    
+                    sh8in_state <= sh8in_bit7; 
+                end 
+                //else
+                //begin
+                    //sh8in_state  <= sh8in_end;
+                //end
+            end
+
+            default:
+            begin
+                //link_read    <= NO;
+                //sh8in_state  <= sh8in_bit7;
+                sh8in_state  <= sh8in_begin;
+            end
+            
+            endcase
+
         end
         else if(I_CTRL_BYTE==HardWriteAddress)
         begin
+            debug <= 1'b0;
             if(I_START_EDGE_CNT==0)
             begin
                 ST_FSM_STATE    <= S_IDLE;
@@ -277,6 +505,7 @@ begin
         end
         else if(I_CTRL_BYTE==HardReadAddress)
         begin
+            //debug <= 1'b0;
             if(I_START_EDGE_CNT==0)
             begin
                 ST_FSM_STATE    <= S_IDLE;
@@ -304,9 +533,162 @@ begin
 
     S_READREG:
     begin
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b0;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b1;
+
         if(FF == 0) 
         begin
-            shift8in(I_REG_ADDR, 1'b0);
+            //shift8in(I_REG_ADDR, 1'b0);
+
+            case(sh8in_state)
+            
+            sh8in_begin:
+            begin
+                sh8in_state <= sh8in_bit7;
+            end
+            
+            sh8in_bit7:
+            begin
+                if(I_SCL_RISE)   
+                begin 
+                    I_REG_ADDR[7] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit6;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit7;
+                end
+            end
+            
+            sh8in_bit6:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_REG_ADDR[6] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit5;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit6;
+                end
+            end
+
+            sh8in_bit5:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_REG_ADDR[5] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit4;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit5;
+                end
+            end
+                         
+            sh8in_bit4:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_REG_ADDR[4] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit3;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit4;
+                end
+            end
+                    
+            sh8in_bit3:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_REG_ADDR[3] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit2;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit3; 
+                end    
+            end
+
+            sh8in_bit2:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_REG_ADDR[2] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit1;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit2;  
+                end
+            end
+
+            sh8in_bit1:
+            begin
+                if(I_SCL_RISE) 
+                begin 
+                    I_REG_ADDR[1] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_bit0;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit1;  
+                end
+            end
+          
+            sh8in_bit0:
+            begin
+                if(I_SCL_RISE) 
+                begin
+                    I_REG_ADDR[0] <= I_SDA_DEB;
+                    sh8in_state     <= sh8in_ack;
+                    ackout_state   <= ack_begin;
+                end
+                else
+                begin
+                    sh8in_state <= sh8in_bit0;
+                end
+            end
+
+            sh8in_ack:
+            begin
+                ack_out;
+                if(ackout_state == ack_end)
+                begin
+                    sh8in_state <= sh8in_end;
+                    ackout_state <= ack_begin;
+                end
+            end
+
+            sh8in_end:
+            begin
+                //if(I_SCL_RISE)
+                begin 
+                    //link_read   <= YES;
+                    FF          <=  1;                    
+                    sh8in_state <= sh8in_bit7; 
+                end 
+                //else
+                //begin
+                    //sh8in_state  <= sh8in_end;
+                //end
+            end
+
+            default:
+            begin
+                //link_read    <= NO;
+                //sh8in_state  <= sh8in_bit7;
+                sh8in_state  <= sh8in_begin;
+            end
+            
+            endcase
+
         end
         else
         begin
@@ -320,6 +702,13 @@ begin
 
     S_WRITE:
     begin
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b0;
+        STOP_S<= 1'b1;
+
         if(FF == 0) 
         begin
             if(I_START_EDGE_CNT==2)
@@ -329,7 +718,152 @@ begin
             end
             else
             begin
-                shift8in(I_SDA_DATA, 1'b0);
+                //shift8in(I_SDA_DATA, 1'b0);
+                case(sh8in_state)
+                
+                sh8in_begin:
+                begin
+                    sh8in_state <= sh8in_bit7;
+                end
+                
+                sh8in_bit7:
+                begin
+                    if(I_SCL_RISE)   
+                    begin 
+                        I_SDA_DATA[7] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit6;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit7;
+                    end
+                end
+                
+                sh8in_bit6:
+                begin
+                    if(I_SCL_RISE) 
+                    begin
+                        I_SDA_DATA[6] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit5;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit6;
+                    end
+                end
+
+                sh8in_bit5:
+                begin
+                    if(I_SCL_RISE) 
+                    begin
+                        I_SDA_DATA[5] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit4;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit5;
+                    end
+                end
+                             
+                sh8in_bit4:
+                begin
+                    if(I_SCL_RISE) 
+                    begin
+                        I_SDA_DATA[4] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit3;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit4;
+                    end
+                end
+                        
+                sh8in_bit3:
+                begin
+                    if(I_SCL_RISE) 
+                    begin 
+                        I_SDA_DATA[3] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit2;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit3; 
+                    end    
+                end
+
+                sh8in_bit2:
+                begin
+                    if(I_SCL_RISE) 
+                    begin 
+                        I_SDA_DATA[2] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit1;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit2;  
+                    end
+                end
+
+                sh8in_bit1:
+                begin
+                    if(I_SCL_RISE) 
+                    begin 
+                        I_SDA_DATA[1] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_bit0;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit1;  
+                    end
+                end
+              
+                sh8in_bit0:
+                begin
+                    if(I_SCL_RISE) 
+                    begin
+                        I_SDA_DATA[0] <= I_SDA_DEB;
+                        sh8in_state     <= sh8in_ack;
+                        ackout_state   <= ack_begin;
+                    end
+                    else
+                    begin
+                        sh8in_state <= sh8in_bit0;
+                    end
+                end
+
+                sh8in_ack:
+                begin
+                    ack_out;
+                    if(ackout_state == ack_end)
+                    begin
+                        sh8in_state <= sh8in_end;
+                        ackout_state <= ack_begin;
+                    end
+                end
+
+                sh8in_end:
+                begin
+                    //if(I_SCL_RISE)
+                    begin 
+                        //link_read   <= YES;
+                        FF          <=  1;                    
+                        sh8in_state <= sh8in_bit7; 
+                    end 
+                    //else
+                    //begin
+                        //sh8in_state  <= sh8in_end;
+                    //end
+                end
+
+                default:
+                begin
+                    //link_read    <= NO;
+                    //sh8in_state  <= sh8in_bit7;
+                    sh8in_state  <= sh8in_begin;
+                end
+                
+                endcase
+
             end
         end
         else
@@ -348,11 +882,19 @@ begin
 
     S_READ:
     begin
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b0;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b1;
+
         if(FF == 0) 
         begin
             if(RFF == 0)
             begin
                 I_SREG_SDA_OUT  <= I_RD_VAL;
+                //debug <= I_RD_VAL[0];
                 RFF <= 1;
             end
             else
@@ -369,10 +911,17 @@ begin
 
     S_STOP:
     begin
+        IDLE_S<= 1'b1;
+        READCTRL_S<= 1'b1;
+        READREG_S<= 1'b1;
+        READ_S<= 1'b1;
+        WRITE_S<= 1'b1;
+        STOP_S<= 1'b0;
+
         I_REG_ADDR      <= 8'h00;
         I_CTRL_BYTE     <= 8'h00;
         I_SDA_DATA      <= 8'h00;
-        
+
         if(I_START_EDGE_CNT==0)
         begin
             ST_FSM_STATE    <= S_IDLE;
@@ -389,7 +938,7 @@ begin
     end
 
     endcase
-    
+
     if (I_STOP_EDGE)
     begin
         ST_FSM_STATE <= S_IDLE;
@@ -397,6 +946,8 @@ begin
 end
 
 //------------------------串行数据转换为并行数据任务----------------------------------
+// LSE 是支持综合带输入输出参数的task
+// synplify, altera 好像不行, 只能是无输入输出参数的task
 task shift8in; 
 output reg [7:0] shift /* synthesis syn_keep = 1 */;
 input  ctrl;
@@ -405,14 +956,14 @@ begin
     
     sh8in_begin:
     begin
-           sh8in_state <= sh8in_bit7;
+        sh8in_state <= sh8in_bit7;
     end
     
     sh8in_bit7:
     begin
         if(I_SCL_RISE)   
         begin 
-            shift[7] <= I_SDA_DEB;    
+            shift[7] <= I_SDA_DEB;
             sh8in_state     <= sh8in_bit6;
         end
         else
@@ -437,7 +988,7 @@ begin
     sh8in_bit5:
     begin
         if(I_SCL_RISE) 
-        begin    
+        begin
             shift[5] <= I_SDA_DEB;
             sh8in_state     <= sh8in_bit4;
         end
@@ -450,7 +1001,7 @@ begin
     sh8in_bit4:
     begin
         if(I_SCL_RISE) 
-        begin    
+        begin
             shift[4] <= I_SDA_DEB;
             sh8in_state     <= sh8in_bit3;
         end
@@ -468,7 +1019,7 @@ begin
             sh8in_state     <= sh8in_bit2;
         end
         else
-        begin         
+        begin
             sh8in_state <= sh8in_bit3; 
         end    
     end
@@ -481,7 +1032,7 @@ begin
             sh8in_state     <= sh8in_bit1;
         end
         else
-        begin         
+        begin
             sh8in_state <= sh8in_bit2;  
         end
     end
@@ -494,28 +1045,32 @@ begin
             sh8in_state     <= sh8in_bit0;
         end
         else
-        begin         
+        begin
             sh8in_state <= sh8in_bit1;  
         end
     end
   
     sh8in_bit0:
     begin
-        if ((ctrl) && ({I_CTRL_BYTE[7:1], 1'b0} !=HardWriteAddress))
+        //if ((ctrl) && ({I_CTRL_BYTE[7:1], 1'b0} !=HardWriteAddress))
+        if ((ctrl) && ({shift[7:1], 1'b0} !=HardWriteAddress))
         begin
             sh8in_state  <= sh8in_begin;
             FF              <= 1'b0;
             ST_FSM_STATE    <= S_IDLE;
+            //debug <= 1'b0;
+            //debug <= I_START_EDGE_CNT[0];
+            //debug <= I_START_EDGE_CNT[0];
         end
 
         if(I_SCL_RISE) 
-        begin    
+        begin
             shift[0] <= I_SDA_DEB;
             sh8in_state     <= sh8in_ack;
             ackout_state   <= ack_begin;
         end
         else
-        begin        
+        begin
             sh8in_state <= sh8in_bit0;
         end
     end
@@ -539,15 +1094,15 @@ begin
             sh8in_state <= sh8in_bit7; 
         end 
         //else
-        //begin         
+        //begin
             //sh8in_state  <= sh8in_end;
         //end
     end
 
     default:
     begin
-          //link_read    <= NO;
-          //sh8in_state  <= sh8in_bit7;
+        //link_read    <= NO;
+        //sh8in_state  <= sh8in_bit7;
         sh8in_state  <= sh8in_begin;
     end
     
@@ -596,6 +1151,7 @@ endtask
 //------------------------------ 并行数据转换为串行数据任务 ---------------------------
 task shift8_out;
 begin
+    //debug <= I_SREG_SDA_OUT[0];
     case(sh8out_state)
     
     sh8out_bit7:
@@ -603,11 +1159,11 @@ begin
         I_RD_OE         <= 1'b1;
         I_SDA_OUT_OE    <= 1'b1;
         //if(I_SCL_FALL)
-        //begin    
+        //begin
             sh8out_state    <= sh8out_bit6;
         //end   
         //else
-        //begin      
+        //begin
             //sh8out_state <= sh8out_bit7;            
         //end
     end
@@ -618,7 +1174,7 @@ begin
         begin 
             sh8out_state  <= sh8out_bit5; 
             I_SREG_SDA_OUT    <= I_SREG_SDA_OUT<<1;
-        end         
+        end
         else
         begin
             sh8out_state <= sh8out_bit6;
@@ -633,7 +1189,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1;
         end   
         else
-        begin        
+        begin
             sh8out_state <= sh8out_bit5;
         end
     end
@@ -646,7 +1202,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1;
         end    
         else
-        begin        
+        begin
             sh8out_state <= sh8out_bit4;
         end
     end
@@ -659,7 +1215,7 @@ begin
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
         else
-        begin        
+        begin
             sh8out_state <= sh8out_bit3;
         end
     end
@@ -674,19 +1230,19 @@ begin
 
         end    
         else
-        begin        
+        begin
             sh8out_state <= sh8out_bit2;
         end
     end
 
     sh8out_bit1: 
     begin
-        if(I_SCL_FALL)    
+        if(I_SCL_FALL)
         begin 
             sh8out_state <= sh8out_bit0; 
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
-        else         
+        else
         begin
             sh8out_state <= sh8out_bit1;
         end
@@ -694,13 +1250,13 @@ begin
 
     sh8out_bit0: 
     begin
-        if(I_SCL_FALL)    
+        if(I_SCL_FALL)
         begin 
             sh8out_state <= sh8out_end; 
             I_SREG_SDA_OUT   <= I_SREG_SDA_OUT<<1; 
         end    
         else
-        begin     
+        begin
             sh8out_state <= sh8out_bit0;
         end
     end
@@ -708,7 +1264,7 @@ begin
     sh8out_end: 
     begin
         if(I_SCL_FALL) 
-        begin    
+        begin
             I_RD_OE         <= 1'b0;
             I_SDA_OUT_OE    <= 1'b0;
             FF              <= 1;
@@ -725,22 +1281,44 @@ begin
     end
 
     endcase
+    //debug <= I_SREG_SDA_OUT[0];     
 end 
 endtask
 
+// synplify 支持直接给单个reg上电初值
+reg     [7:0]   ROReg0 /* synthesis syn_keep = 1 */ = 8'h10;   
+reg     [7:0]   ROReg1 /* synthesis syn_keep = 1 */ = 8'h20;  
+reg     [7:0]   ROReg2 /* synthesis syn_keep = 1 */ = 8'h30;  
+reg     [7:0]   ROReg3 /* synthesis syn_keep = 1 */ = 8'h40;  
+//reg     [15:0]  RAM [0:3] /* synthesis syn_preserve = 1 */;
+reg     [15:0]  RAM [0:3] /* synthesis syn_ramstyle = "no_rw_check" */;
+initial
+begin
+    $readmemh ("mem.ini", RAM, 0, 3); // Initialize RAM with contents
+    //mem.ini在synplify工程目录为相对目录起点, 而不是相对于源文件
+end
+/*
+文本文件mem.init的内容
+8095
+031d
+0000
+0000
+*/
 
-reg     [7:0]   ROReg0 /* synthesis syn_keep = 1 */;   
-reg     [7:0]   ROReg1 /* synthesis syn_keep = 1 */;  
-reg     [7:0]   ROReg2 /* synthesis syn_keep = 1 */;  
-reg     [7:0]   ROReg3 /* synthesis syn_keep = 1 */;  
-reg     [15:0]  RAM [0:3] /* synthesis syn_preserve = 1 */;
+/*
+//altera支持initial指定初始值, synplify 不行
 initial
 begin
     RAM[0]      = 16'h8095; // 这里是初始值
     RAM[1]      = 16'h031d; // 这里是初始值
     RAM[2]      = 16'h0000; // 这里是初始值
     RAM[3]      = 16'h0000; // 这里是初始值
+    ROReg0      = 8'h10; // RO, default 0x10
+    ROReg1      = 8'h20; // RO, default 0x20
+    ROReg2      = 8'h30; // RO, default 0x30
+    ROReg3      = 8'h40; // RO, default 0x40
 end
+*/
 
 always @(posedge CLOCK)
 begin
@@ -754,11 +1332,22 @@ begin
         ROReg1      <=   8'h20; // RO, default 0x20
         ROReg2      <=   8'h30; // RO, default 0x30
         ROReg3      <=   8'h40; // RO, default 0x40
+        //debug <= 1'b1;
     end
     else
     begin
+        //debug <= ROReg0[0];
         if (I_RD_OP == 1'b1) // --- I2C Read
         begin
+            //if(!I_REG_ADDR[3])
+            //begin
+               //debug <= 1'b0; 
+            //end
+
+            //debug <= 1'b0;
+            //debug <= I_REG_ADDR[3];
+            //debug <= ROReg0[0];
+
             case (I_REG_ADDR)
             8'h00: I_RD_VAL <= RAM[0][15:8];  
             8'h01: I_RD_VAL <= RAM[0][7:0];  
@@ -774,9 +1363,12 @@ begin
             8'h0b: I_RD_VAL <= ROReg3; 
             default: I_RD_VAL <= 8'hFF; // i2c读非法内部地址, 返回0xff
             endcase
+
+            //debug <= I_RD_VAL[0];
         end
         else if (I_WR_OP == 1'b1) // --- I2C Write
         begin
+            //debug <= 1'b0;
             case (I_REG_ADDR)
             8'h00: RAM[0][15:8] <= I_SDA_DATA;  //  high byte
             8'h01: RAM[0][7:0] <= I_SDA_DATA;   //  low byte
@@ -860,5 +1452,3 @@ begin
     end
 end
 */
-
-
