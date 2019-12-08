@@ -25,9 +25,9 @@ input   [2:0]    paddr;
 output  clk_out_1;
 output  clk_out_2;
 output  [15:0]   pdata;
-output  debug;
+//output  debug;
 
-wire    debug;
+//wire    debug;
 
 wire    clk_out_1;
 wire    clk_out_2;
