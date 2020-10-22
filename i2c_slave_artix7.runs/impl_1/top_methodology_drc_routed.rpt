@@ -1,0 +1,46 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
+| Date         : Tue Sep 29 11:11:49 2020
+| Host         : debian-dell running 64-bit Debian GNU/Linux 8.11 (jessie)
+| Command      : report_methodology -file top_methodology_drc_routed.rpt -pb top_methodology_drc_routed.pb -rpx top_methodology_drc_routed.rpx
+| Design       : top
+| Device       : xc7a35tfgg484-2
+| Speed File   : -2
+| Design State : Fully Routed
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max violations: <unlimited>
+             Violations found: 2
++----------+----------+----------------------------------------------------+------------+
+| Rule     | Severity | Description                                        | Violations |
++----------+----------+----------------------------------------------------+------------+
+| TIMING-2 | Warning  | Invalid primary clock source pin                   | 1          |
+| TIMING-4 | Warning  | Invalid primary clock redefinition on a clock tree | 1          |
++----------+----------+----------------------------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+TIMING-2#1 Warning
+Invalid primary clock source pin  
+A primary clock clk_refm0/inst/clk_in1 is created on an inappropriate pin clk_refm0/inst/clk_in1. It is recommended to create a primary clock only on a proper clock source (input port or primitive output pin with no timing arc)
+Related violations: <none>
+
+TIMING-4#1 Warning
+Invalid primary clock redefinition on a clock tree  
+Invalid clock redefinition on a clock tree. The primary clock clk_refm0/inst/clk_in1 is defined downstream of clock sys_clk_p and overrides its insertion delay and/or waveform definition
+Related violations: <none>
+
+

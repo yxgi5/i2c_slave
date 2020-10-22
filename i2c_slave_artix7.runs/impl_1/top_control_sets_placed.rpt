@@ -1,0 +1,81 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
+| Date         : Tue Sep 29 11:11:36 2020
+| Host         : debian-dell running 64-bit Debian GNU/Linux 8.11 (jessie)
+| Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
+| Design       : top
+| Device       : xc7a35t
+------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Number of unique control sets                            |    14 |
+| Unused register locations in slices containing registers |    14 |
++----------------------------------------------------------+-------+
+
+
+2. Histogram
+------------
+
++--------+--------------+
+| Fanout | Control Sets |
++--------+--------------+
+|      3 |            1 |
+|      4 |            2 |
+|      8 |           10 |
+|    16+ |            1 |
++--------+--------------+
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               3 |            2 |
+| No           | No                    | Yes                    |              29 |            7 |
+| No           | Yes                   | No                     |              34 |           17 |
+| Yes          | No                    | No                     |               8 |            3 |
+| Yes          | No                    | Yes                    |              64 |           14 |
+| Yes          | Yes                   | No                     |              16 |            6 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++--------------------------+---------------------------------------+-------------------+------------------+----------------+
+|       Clock Signal       |             Enable Signal             |  Set/Reset Signal | Slice Load Count | Bel Load Count |
++--------------------------+---------------------------------------+-------------------+------------------+----------------+
+|  clk_refm0/inst/clk_out1 |                                       |                   |                2 |              3 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/sh8out_state[3]_i_1_n_0   | U_I2C_SLAVE/reset |                1 |              4 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/sh8in_state[3]_i_1_n_0    | U_I2C_SLAVE/reset |                3 |              4 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/I_RD_VAL_0                |                   |                3 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/I_SREG_SDA_OUT[7]_i_1_n_0 | U_I2C_SLAVE/reset |                2 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[0][15]_i_1_n_0        | U_I2C_SLAVE/reset |                1 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[1][7]_i_1_n_0         | U_I2C_SLAVE/reset |                1 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[2][15]_i_1_n_0        | U_I2C_SLAVE/reset |                1 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[2][7]_i_1_n_0         | U_I2C_SLAVE/reset |                2 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[3][15]_i_1_n_0        | U_I2C_SLAVE/reset |                2 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[3][7]_i_1_n_0         | U_I2C_SLAVE/reset |                3 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[1][15]_i_1_n_0        | U_I2C_SLAVE/reset |                2 |              8 |
+|  clk_refm0/inst/clk_out1 | U_I2C_SLAVE/RAM[0][7]_i_1_n_0         | U_I2C_SLAVE/reset |                2 |              8 |
+|  clk_refm0/inst/clk_out1 |                                       | U_I2C_SLAVE/reset |               24 |             63 |
++--------------------------+---------------------------------------+-------------------+------------------+----------------+
+
+

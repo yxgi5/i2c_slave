@@ -1,320 +1,0 @@
-<HTML>
-<HEAD><TITLE>Synthesis and Ngdbuild Report</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Syn"></A><B><U><big>Synthesis and Ngdbuild  Report</big></U></B>
-synthesis:  version Diamond (64-bit) 3.9.0.99.2
-
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2017 Lattice Semiconductor Corporation,  All rights reserved.
-Tue Dec  3 09:33:50 2019
-
-
-Command Line:  synthesis -f MXO2_test_MXO2_test_lattice.synproj -gui -msgset /home/andy/workdir/MXO2_test/promote.xml 
-
-Synthesis options:
-The -a option is MachXO2.
-The -s option is 4.
-The -t option is CSBGA132.
-The -d option is LCMXO2-4000HC.
-Using package CSBGA132.
-Using performance grade 4.
-                                                          
-
-##########################################################
-
-### Lattice Family : MachXO2
-
-### Device  : LCMXO2-4000HC
-
-### Package : CSBGA132
-
-### Speed   : 4
-
-##########################################################
-
-                                                          
-
-INFO - synthesis: User-Selected Strategy Settings
-Optimization goal = Balanced
-Top-level module name = top.
-Target frequency = 1.000000 MHz.
-Maximum fanout = 1000.
-Timing path count = 3
-BRAM utilization = 100.000000 %
-DSP usage = true
-DSP utilization = 100.000000 %
-fsm_encoding_style = auto
-resolve_mixed_drivers = 0
-fix_gated_clocks = 1
-
-Mux style = Auto
-Use Carry Chain = true
-carry_chain_length = 0
-Loop Limit = 1950.
-Use IO Insertion = TRUE
-Use IO Reg = AUTO
-
-Resource Sharing = TRUE
-Propagate Constants = TRUE
-Remove Duplicate Registers = TRUE
-force_gsr = auto
-ROM style = auto
-RAM style = auto
-The -comp option is FALSE.
-The -syn option is FALSE.
--p /home/andy/workdir/MXO2_test (searchpath added)
--p /opt/lscc/diamond/3.9_x64/ispfpga/xo2c00/data (searchpath added)
--p /home/andy/workdir/MXO2_test/MXO2_test (searchpath added)
--p /home/andy/workdir/MXO2_test (searchpath added)
-Verilog design file = /home/andy/workdir/MXO2_test/top.v
-Verilog design file = /home/andy/workdir/MXO2_test/my_pll.v
-Verilog design file = /home/andy/workdir/MXO2_test/clk_div.v
-Verilog design file = /home/andy/workdir/MXO2_test/I2C_SLAVE.v
-NGD file = MXO2_test_MXO2_test.ngd
--sdc option: SDC file input not used.
--lpf option: Output file option is ON.
-Hardtimer checking is enabled (default). The -dt option is not used.
-The -r option is OFF. [ Remove LOC Properties is OFF. ]
-Technology check ok...
-
-Analyzing Verilog file /opt/lscc/diamond/3.9_x64/ispfpga/userware/unix/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
-Compile design.
-Compile Design Begin
-Analyzing Verilog file /home/andy/workdir/MXO2_test/top.v. VERI-1482
-Analyzing Verilog file /home/andy/workdir/MXO2_test/my_pll.v. VERI-1482
-Analyzing Verilog file /home/andy/workdir/MXO2_test/clk_div.v. VERI-1482
-Analyzing Verilog file /home/andy/workdir/MXO2_test/I2C_SLAVE.v. VERI-1482
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(127): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(128): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(131): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(132): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(133): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(134): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(135): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(136): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(146): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(147): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(148): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(149): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(150): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(151): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(152): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(153): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(154): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(158): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(159): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(160): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(161): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(162): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(163): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(164): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(165): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(166): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(167): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(168): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(171): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(172): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(173): parameter declaration becomes local in I2C_SLAVE with formal parameter declaration list. VERI-1199
-Analyzing Verilog file /opt/lscc/diamond/3.9_x64/ispfpga/userware/unix/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
-Top module name (Verilog): top
-INFO - synthesis: /home/andy/workdir/MXO2_test/top.v(1): compiling module top. VERI-1018
-INFO - synthesis: /home/andy/workdir/MXO2_test/my_pll.v(8): compiling module my_pll. VERI-1018
-INFO - synthesis: /opt/lscc/diamond/3.9_x64/ispfpga/userware/unix/SYNTHESIS_HEADERS/machxo2.v(1124): compiling module VLO. VERI-1018
-INFO - synthesis: /opt/lscc/diamond/3.9_x64/ispfpga/userware/unix/SYNTHESIS_HEADERS/machxo2.v(1730): compiling module EHXPLLJ(CLKFB_DIV=33,CLKOP_DIV=1,CLKOS2_DIV=1,CLKOS3_DIV=1,CLKOS2_ENABLE="DISABLED",CLKOS3_ENABLE="DISABLED",CLKOS_CPHASE=7). VERI-1018
-INFO - synthesis: /home/andy/workdir/MXO2_test/clk_div.v(1): compiling module clk_div(N=1000). VERI-1018
-INFO - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(2): compiling module I2C_SLAVE. VERI-1018
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(683): shift may be used uninitialized in static subprogram shift8in and create unintended latch behavior. VERI-1304
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/xo2c00a/data/xo2alib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/xo2c00/data/xo2clib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/mg5g00/data/mg5glib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/or5g00/data/orc5glib.ngl'...
-Loading device for application map from file 'xo2c4000.nph' in environment: /opt/lscc/diamond/3.9_x64/ispfpga.
-Package Status:                     Final          Version 1.44.
-Top-level module name = top.
-WARNING - synthesis: net n2259 does not have a driver. VDB-1002
-WARNING - synthesis: net n2260 does not have a driver. VDB-1002
-WARNING - synthesis: net n2261 does not have a driver. VDB-1002
-WARNING - synthesis: net n2262 does not have a driver. VDB-1002
-WARNING - synthesis: net n2263 does not have a driver. VDB-1002
-WARNING - synthesis: net n2264 does not have a driver. VDB-1002
-WARNING - synthesis: net n2265 does not have a driver. VDB-1002
-WARNING - synthesis: net n2266 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2259 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2260 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2261 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2262 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2263 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2264 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2265 does not have a driver. VDB-1002
-WARNING - synthesis: net \U_I2C_SLAVE/n2266 does not have a driver. VDB-1002
-######## Missing driver on net \U_I2C_SLAVE/n2259. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2260. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2261. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2262. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2263. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2264. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2265. Patching with GND.
-######## Missing driver on net \U_I2C_SLAVE/n2266. Patching with GND.
-
-
-
-WARNING - synthesis: /home/andy/workdir/MXO2_test/I2C_SLAVE.v(519): Register \U_I2C_SLAVE/debug_474 is stuck at One. VDB-5014
-GSR will not be inferred because no asynchronous signal was found in the netlist.
-Applying 1.000000 MHz constraint to all clocks
-
-WARNING - synthesis: No user .sdc file.
-Results of NGD DRC are available in top_drc.log.
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/xo2c00a/data/xo2alib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/xo2c00/data/xo2clib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/mg5g00/data/mg5glib.ngl'...
-Loading NGL library '/opt/lscc/diamond/3.9_x64/ispfpga/or5g00/data/orc5glib.ngl'...
-WARNING - synthesis: logical net 'U_I2C_SLAVE/I_SDA_HIGH' has no load.
-WARNING - synthesis: logical net 'U_I2C_SLAVE/I_SDA_LOW' has no load.
-WARNING - synthesis: logical net 'U_I2C_SLAVE/I_SCL_LOW' has no load.
-WARNING - synthesis: DRC complete with 3 warnings.
-All blocks are expanded and NGD expansion is successful.
-Writing NGD file MXO2_test_MXO2_test.ngd.
-
-################### Begin Area Report (top)######################
-Number of register bits => 279 of 4635 (6 % )
-BB => 1
-CCU2D => 64
-EHXPLLJ => 1
-FD1P3AY => 11
-FD1P3IX => 69
-FD1P3JX => 6
-FD1S3AX => 56
-FD1S3IX => 107
-FD1S3JX => 30
-GSR => 1
-IB => 7
-L6MUX21 => 9
-LUT4 => 525
-OB => 25
-PFUMX => 92
-################### End Area Report ##################
-
-################### Begin BlackBox Report ######################
-TSALL => 1
-################### End BlackBox Report ##################
-
-################### Begin Clock Report ######################
-Clock Nets
-Number of Clocks: 3
-  Net : my_pll_inst/clk_out_2_pre, loads : 247
-  Net : my_pll_inst/clk_out_1_pre, loads : 33
-  Net : clk_in_N, loads : 1
-Clock Enable Nets
-Number of Clock Enables: 15
-Top 10 highest fanout Clock Enables:
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_16, loads : 8
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_24, loads : 8
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_8, loads : 8
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_32, loads : 8
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_63, loads : 7
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_48, loads : 6
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_37, loads : 4
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_56, loads : 4
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_55, loads : 4
-  Net : U_I2C_SLAVE/CLOCK_keep_enable_70, loads : 4
-Highest fanout non-clock nets
-Top 10 highest fanout non-clock nets:
-  Net : reset_n_N_1, loads : 202
-  Net : U_I2C_SLAVE/FF, loads : 65
-  Net : U_I2C_SLAVE/ST_FSM_STATE_2, loads : 54
-  Net : U_I2C_SLAVE/ST_FSM_STATE_1, loads : 53
-  Net : U_I2C_SLAVE/ST_FSM_STATE_0, loads : 53
-  Net : U_I2C_SLAVE/I_REG_ADDR_0, loads : 51
-  Net : U_I2C_SLAVE/I_REG_ADDR_1, loads : 45
-  Net : ADD_IN_2, loads : 32
-  Net : paddr_c_0, loads : 32
-  Net : clk_div_inst_2/n181, loads : 32
-################### End Clock Report ##################
-
-<A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
---------------
---------------------------------------------------------------------------------
-Constraint                              |   Constraint|       Actual|Levels
---------------------------------------------------------------------------------
-                                        |             |             |
-create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets clk_out_1_pre]           |    1.000 MHz|  114.247 MHz|     5  
-                                        |             |             |
-create_clock -period 1000.000000 -name  |             |             |
-clk0 [get_nets clk_out_2_pre]           |    1.000 MHz|   64.876 MHz|     9  
-                                        |             |             |
---------------------------------------------------------------------------------
-
-
-All constraints were met.
-
-
-Peak Memory Usage: 207.395  MB
-
---------------------------------------------------------------
-Elapsed CPU time for LSE flow : 1.196  secs
---------------------------------------------------------------
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>
