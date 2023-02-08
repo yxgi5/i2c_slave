@@ -23,4 +23,4 @@ view signals
 
 #300 ns
 
-run 900us
+run 1200us

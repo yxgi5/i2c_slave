@@ -151,6 +151,7 @@ reg                         I_WR_OP /* synthesis syn_keep = 1 */;
 reg                         I_RD_OP /* synthesis syn_keep = 1 */;
 //reg     [7:0]               I_WR_VAL; // for output
 reg     [31:0]              I_RD_VAL /* synthesis syn_keep = 1 */;
+reg                         I_RD_ACK /* synthesis syn_keep = 1 */;
 
 reg                         I_START_FF /* synthesis syn_keep = 1 */;
 reg                         I_START_FF_1 /* synthesis syn_keep = 1 */;
@@ -197,6 +198,7 @@ parameter   sh8out_bit1 = 4'b0110;
 parameter   sh8out_bit0 = 4'b0111;
 parameter   sh8out_ack  = 4'b1000;
 parameter   sh8out_end  = 4'b1001;
+parameter   sh8out_repeat = 4'b1010;
 
 //--------------------------串行数据并行状态----------------------------
 // shift8in从状态机的状态定义
@@ -351,7 +353,7 @@ begin
         I_SREG_SDA_OUT  <= 8'b0;
 	I_RD_VAL	<= 32'b0;
         debug <= 1'b1;
-
+        I_RD_ACK       <= 1'b0;
         IDLE_S<= 1'b1;
         READCTRL_S<= 1'b1;
         READREGH_S<= 1'b1;
@@ -386,6 +388,7 @@ begin
             I_CTRL_BYTE     <= 8'h00;
             sh8in_state     <= sh8in_begin;
             FF              <= 1'b0;
+            I_RD_ACK       <= 1'b0;
         end
         else
         begin
@@ -2087,8 +2090,15 @@ begin
                 RFF <= 1;
             end
             else
-            begin           
-                shift8_out;
+            begin
+//                if(I_RD_ACK)          
+//                begin
+//                    ST_FSM_STATE    <= S_STOP;
+//                end
+//                else
+//                begin 
+                    shift8_out;
+//                end
             end
         end
         else
@@ -2567,10 +2577,6 @@ begin
             I_RD_OE         <= 1'b0;
             I_SDA_OUT_OE    <= 1'b0;          
         end 
-//        else if (I_SCL_RISE) 
-//        begin
-            
-//        end   
         else     
         begin
             sh8out_state <= sh8out_ack;
@@ -2584,10 +2590,42 @@ begin
             I_RD_OE         <= 1'b0;
             I_SDA_OUT_OE    <= 1'b0;
             FF              <= 1;
-        end    
+            I_RD_ACK <= 1'b0;
+        end
+        else if (I_SCL_RISE) 
+        begin
+            if(I_SDA_DEB)
+            begin
+                I_RD_ACK <= 1'b0;
+            end
+            else
+            begin
+                I_RD_ACK <= 1'b1;
+                sh8out_state <= sh8out_repeat;
+                I_RD_OP <= 1'b1;
+                {I_REG_ADDRH,I_REG_ADDR} <= {I_REG_ADDRH,I_REG_ADDR} + 1'b1;
+                I_RD_OE         <= 1'b1;
+                //I_SDA_OUT_OE    <= 1'b0;
+            end
+        end  
         else     
         begin
             sh8out_state <= sh8out_end;
+        end
+    end
+
+    sh8out_repeat: 
+    begin
+        I_RD_OP <= 1'b0;
+        if(I_RD_ACK)
+        begin
+            I_RD_ACK <= 1'b0;
+            I_SREG_SDA_OUT  <= I_RD_VAL[7:0];
+        end
+        if(I_SCL_FALL) 
+        begin
+            I_SDA_OUT_OE <= 1'b1;
+            sh8out_state <= sh8out_bit6;
         end
     end
 
@@ -2660,18 +2698,18 @@ begin
     if (RESET == 1'b1) 
     begin
 
-        RAM[0]      <=   8'h00; // 这里是初始值
-        RAM[1]      <=   8'h00; // 这里是初始值
-        RAM[2]      <=   8'h00; // 这里是初始值
-        RAM[3]      <=   8'h00; // 这里是初始值
-        RAM[4]      <=   8'h00; // 这里是初始值
-        RAM[5]      <=   8'h00; // 这里是初始值
-        RAM[6]      <=   8'h00; // 这里是初始值
-        RAM[7]      <=   8'h00; // 这里是初始值
+        RAM[0]      <=   8'hB0; // 这里是初始值
+        RAM[1]      <=   8'hB1; // 这里是初始值
+        RAM[2]      <=   8'hB2; // 这里是初始值
+        RAM[3]      <=   8'hB3; // 这里是初始值
+        RAM[4]      <=   8'hB4; // 这里是初始值
+        RAM[5]      <=   8'hB5; // 这里是初始值
+        RAM[6]      <=   8'hB6; // 这里是初始值
+        RAM[7]      <=   8'hB7; // 这里是初始值
         ROReg0      <=   8'hA0;
         ROReg1      <=   8'hA1;
-        ROReg2      <=   8'h00;
-        ROReg3      <=   8'h00;
+        ROReg2      <=   8'hA2;
+        ROReg3      <=   8'hA3;
         //debug <= 1'b1;
 
 
