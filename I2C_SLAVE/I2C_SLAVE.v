@@ -2577,6 +2577,17 @@ begin
             I_RD_OE         <= 1'b0;
             I_SDA_OUT_OE    <= 1'b0;          
         end 
+//        else if (I_SCL_RISE) 
+//        begin
+//            if(I_SDA_DEB)
+//            begin
+//                I_RD_NACK <= 1'b1;
+//            end
+//            else
+//            begin
+//                I_RD_NACK <= 1'b0;
+//            end
+//        end   
         else     
         begin
             sh8out_state <= sh8out_ack;
@@ -2625,8 +2636,8 @@ begin
         if(I_SCL_FALL) 
         begin
             I_SDA_OUT_OE <= 1'b1;
-            sh8out_state <= sh8out_bit6;
             I_SREG_SDA_OUT  <= I_RD_VAL[7:0];
+            sh8out_state <= sh8out_bit6;
         end
     end
 
@@ -2661,7 +2672,7 @@ reg     [7:0]   ROReg2;
 reg     [7:0]   ROReg3;  
 //reg     [15:0]  RAM [0:3] /* synthesis syn_preserve = 1 */;
 //reg     [15:0]  RAM [0:3] /* synthesis syn_ramstyle = "no_rw_check" */;
-reg     [7:0]  RAM [0:7] /* synthesis syn_ramstyle = "no_rw_check" */;
+reg     [7:0]  RAM [0:35] /* synthesis syn_ramstyle = "no_rw_check" */;
 //reg     [7:0]  RAM [0:255] /* synthesis syn_ramstyle = "no_rw_check" */;
 
 //reg [D_WIDTH-1:0] RAM [0:2**A_WIDTH-1];
@@ -2711,6 +2722,37 @@ begin
         ROReg1      <=   8'hA1;
         ROReg2      <=   8'hA2;
         ROReg3      <=   8'hA3;
+		
+		
+		RAM[8]      <=   8'h58;
+		RAM[9]      <=   8'h03;
+		RAM[10]     <=   8'h43;
+		RAM[11]     <=   8'h01;
+		RAM[12]     <=   8'h03;
+		RAM[13]     <=   8'h5E;
+        RAM[14]     <=   8'h06;
+        RAM[15]     <=   8'hD8;
+        RAM[16]     <=   8'h03;
+        RAM[17]     <=   8'h78;
+		RAM[18]     <=   8'h03;
+		RAM[19]     <=   8'h48;
+		RAM[20]     <=   8'h21;
+        RAM[21]     <=   8'h03;
+        RAM[22]     <=   8'h0C;
+        RAM[23]     <=   8'h01;
+        RAM[24]     <=   8'h00;
+        RAM[25]     <=   8'h19;
+        RAM[26]     <=   8'hF4;
+        RAM[27]     <=   8'h11;
+        RAM[28]     <=   8'h87;
+        RAM[29]     <=   8'h00;
+        RAM[30]     <=   8'h28;
+        RAM[31]     <=   8'h23;
+        RAM[32]     <=   8'h19;
+        RAM[33]     <=   8'h0F;
+        RAM[34]     <=   8'h83;
+        RAM[35]     <=   8'h07;
+	
         //debug <= 1'b1;
 
 
@@ -2755,6 +2797,39 @@ begin
             16'h0009: I_RD_VAL <= RAM[5][7:0];  
             16'h000a: I_RD_VAL <= RAM[6][7:0]; 
             16'h000b: I_RD_VAL <= RAM[7][7:0];  
+			
+			16'h300A: I_RD_VAL <= RAM[8][7:0];
+			16'h300B: I_RD_VAL <= RAM[9][7:0];
+			16'h300C: I_RD_VAL <= RAM[10][7:0];
+			16'h302A: I_RD_VAL <= RAM[11][7:0];
+			16'h380E: I_RD_VAL <= RAM[12][7:0];
+			16'h380F: I_RD_VAL <= RAM[13][7:0];
+			16'h380C: I_RD_VAL <= RAM[14][7:0];
+			16'h380D: I_RD_VAL <= RAM[15][7:0];			
+			16'h388C: I_RD_VAL <= RAM[16][7:0];
+			16'h388D: I_RD_VAL <= RAM[17][7:0];		
+			16'h384C: I_RD_VAL <= RAM[18][7:0];
+			16'h384D: I_RD_VAL <= RAM[19][7:0];
+			16'h7000: I_RD_VAL <= RAM[20][7:0];
+			16'h7001: I_RD_VAL <= RAM[21][7:0];
+			16'h7002: I_RD_VAL <= RAM[22][7:0];
+			16'h7003: I_RD_VAL <= RAM[23][7:0];
+			16'h7004: I_RD_VAL <= RAM[24][7:0];
+			16'h7005: I_RD_VAL <= RAM[25][7:0];
+			16'h7006: I_RD_VAL <= RAM[26][7:0];
+			16'h7007: I_RD_VAL <= RAM[27][7:0];
+			16'h7008: I_RD_VAL <= RAM[28][7:0];
+			16'h7009: I_RD_VAL <= RAM[29][7:0];
+			16'h700A: I_RD_VAL <= RAM[30][7:0];
+			16'h700B: I_RD_VAL <= RAM[31][7:0];
+			16'h700C: I_RD_VAL <= RAM[32][7:0];
+			16'h700D: I_RD_VAL <= RAM[33][7:0];
+			16'h700E: I_RD_VAL <= RAM[34][7:0];
+			16'h700F: I_RD_VAL <= RAM[35][7:0];
+			
+			
+			
+			
             default: I_RD_VAL <= 8'hFF; // i2c读非法内部地址, 返回0xff
             endcase
 
