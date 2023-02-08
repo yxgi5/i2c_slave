@@ -2602,13 +2602,31 @@ end
 endtask
 
 // synplify 支持直接给单个reg上电初值
-reg     [31:0]   ROReg0;   
-reg     [31:0]   ROReg1;  
-reg     [31:0]   ROReg2;  
-reg     [31:0]   ROReg3;  
+
+//reg     [31:0]   ROReg0;   
+//reg     [31:0]   ROReg1;  
+//reg     [31:0]   ROReg2;  
+//reg     [31:0]   ROReg3;  
+//reg     [31:0]   ROReg4;   
+//reg     [31:0]   ROReg5;  
+//reg     [31:0]   ROReg6;  
+//reg     [31:0]   ROReg7;  
+//reg     [31:0]   ROReg8;  
+//reg     [31:0]   ROReg9;  
+//reg     [31:0]   ROReg10;  
+//reg     [31:0]   ROReg11;  
+
+reg     [7:0]   ROReg0;   
+reg     [7:0]   ROReg1;  
+reg     [7:0]   ROReg2;  
+reg     [7:0]   ROReg3;  
 //reg     [15:0]  RAM [0:3] /* synthesis syn_preserve = 1 */;
 //reg     [15:0]  RAM [0:3] /* synthesis syn_ramstyle = "no_rw_check" */;
-//reg     [7:0]  RAM [0:7] /* synthesis syn_ramstyle = "no_rw_check" */;
+reg     [7:0]  RAM [0:7] /* synthesis syn_ramstyle = "no_rw_check" */;
+//reg     [7:0]  RAM [0:255] /* synthesis syn_ramstyle = "no_rw_check" */;
+
+//reg [D_WIDTH-1:0] RAM [0:2**A_WIDTH-1];
+
 /*
 initial
 begin
@@ -2641,19 +2659,35 @@ always @(posedge CLOCK)
 begin
     if (RESET == 1'b1) 
     begin
-//        RAM[0]      <=   8'h00; // 这里是初始值
-//        RAM[1]      <=   8'h00; // 这里是初始值
-//        RAM[2]      <=   8'h00; // 这里是初始值
-//        RAM[3]      <=   8'h00; // 这里是初始值
-//        RAM[4]      <=   8'h00; // 这里是初始值
-//        RAM[5]      <=   8'h00; // 这里是初始值
-//        RAM[6]      <=   8'h00; // 这里是初始值
-//        RAM[7]      <=   8'h00; // 这里是初始值
-        ROReg0      <=   32'hA0A1A2A3;
-        ROReg1      <=   32'hA4A5A6A7;
-        ROReg2      <=   32'h1A2A3A4A;
-        ROReg3      <=   32'h5A6A7A8A;
+
+        RAM[0]      <=   8'h00; // 这里是初始值
+        RAM[1]      <=   8'h00; // 这里是初始值
+        RAM[2]      <=   8'h00; // 这里是初始值
+        RAM[3]      <=   8'h00; // 这里是初始值
+        RAM[4]      <=   8'h00; // 这里是初始值
+        RAM[5]      <=   8'h00; // 这里是初始值
+        RAM[6]      <=   8'h00; // 这里是初始值
+        RAM[7]      <=   8'h00; // 这里是初始值
+        ROReg0      <=   8'hA0;
+        ROReg1      <=   8'hA1;
+        ROReg2      <=   8'h00;
+        ROReg3      <=   8'h00;
         //debug <= 1'b1;
+
+
+        //ROReg0      <=   32'h00_00_00_00;
+        //ROReg1      <=   32'h01_00_00_01;
+        //ROReg2      <=   32'h10_C9_B0_03;
+        //ROReg3      <=   32'h01_00_00_10;
+        //ROReg4      <=   32'h00_00_00_00;
+        //ROReg5      <=   32'h1B_00_00_00;
+        //ROReg6      <=   32'h00_00_00_00;
+        //ROReg7      <=   32'h00_46_D2_E8;
+        //ROReg8      <=   32'h00_00_00_00;
+        //ROReg9      <=   32'hAA_00_00_00;
+        //ROReg10     <=   32'h00_00_00_00;
+        //ROReg11     <=   32'h0C_00_00_00;
+
     end
     else
     begin
@@ -2669,11 +2703,35 @@ begin
             //debug <= I_REG_ADDR[3];
             //debug <= ROReg0[0];
 
-            case ({I_REG_ADDRHHH,I_REG_ADDRHH,I_REG_ADDRH,I_REG_ADDR})
-            32'h00000000: I_RD_VAL <= ROReg0;  
-            32'h00000001: I_RD_VAL <= ROReg1;  
-            32'h00000002: I_RD_VAL <= ROReg2;  
-            32'h00000003: I_RD_VAL <= ROReg3;  
+            case ({I_REG_ADDRH,I_REG_ADDR})
+            16'h0000: I_RD_VAL <= ROReg0;  
+            16'h0001: I_RD_VAL <= ROReg1;  
+            16'h0002: I_RD_VAL <= ROReg2;  
+            16'h0003: I_RD_VAL <= ROReg3;  
+            16'h0004: I_RD_VAL <= RAM[0][7:0];  
+            16'h0005: I_RD_VAL <= RAM[1][7:0];  
+            16'h0006: I_RD_VAL <= RAM[2][7:0];  
+            16'h0007: I_RD_VAL <= RAM[3][7:0];  
+            16'h0008: I_RD_VAL <= RAM[4][7:0];  
+            16'h0009: I_RD_VAL <= RAM[5][7:0];  
+            16'h000a: I_RD_VAL <= RAM[6][7:0]; 
+            16'h000b: I_RD_VAL <= RAM[7][7:0];  
+            default: I_RD_VAL <= 8'hFF; // i2c读非法内部地址, 返回0xff
+            endcase
+
+//            case ({I_REG_ADDRHHH,I_REG_ADDRHH,I_REG_ADDRH,I_REG_ADDR})
+//            32'h1C_80_09_00: I_RD_VAL <= ROReg0;  
+//            32'h98_04_05_00: I_RD_VAL <= ROReg1;  
+//            32'h08_83_0A_00: I_RD_VAL <= ROReg2;  
+//            32'h04_C2_02_00: I_RD_VAL <= ROReg3;  
+//            32'h18_80_09_00: I_RD_VAL <= ROReg4;  
+//            32'h04_00_30_00: I_RD_VAL <= ROReg5;  
+//            32'h20_00_30_00: I_RD_VAL <= ROReg6;  
+//            32'h0C_83_0A_00: I_RD_VAL <= ROReg7;  
+//            32'h2C_00_30_00: I_RD_VAL <= ROReg8;  
+//            32'h00_00_30_00: I_RD_VAL <= ROReg9; 
+//            32'h1C_80_09_00: I_RD_VAL <= ROReg10; 
+//            32'h0C_00_30_00: I_RD_VAL <= ROReg11; 
 //            32'h0004: I_RD_VAL <= RAM[0][7:0];  
 //            32'h0005: I_RD_VAL <= RAM[1][7:0];  
 //            32'h0006: I_RD_VAL <= RAM[2][7:0];  
@@ -2682,11 +2740,37 @@ begin
 //            32'h0009: I_RD_VAL <= RAM[5][7:0];  
 //            32'h000a: I_RD_VAL <= RAM[6][7:0]; 
 //            32'h000b: I_RD_VAL <= RAM[7][7:0];  
-            default: I_RD_VAL <= 32'hffffffff; // i2c读非法内部地址, 返回0xff
-            endcase
+//            default: I_RD_VAL <= 32'h00_00_00_00; // i2c读非法内部地址, 返回
+//            endcase
 
             //debug <= I_RD_VAL[0];
         end
+
+        else if (I_WR_OP == 1'b1) // --- I2C Write
+        begin
+            //debug <= 1'b0;
+            case ({I_REG_ADDRH,I_REG_ADDR})
+            16'h0004: RAM[0][7:0] <= I_SDA_DATA;  //  high byte
+            16'h0005: RAM[1][7:0] <= I_SDA_DATA;   //  low byte
+            16'h0006: RAM[2][7:0] <= I_SDA_DATA;
+            16'h0007: RAM[3][7:0] <= I_SDA_DATA;
+            16'h0008: RAM[4][7:0] <= I_SDA_DATA;
+            16'h0009: RAM[5][7:0] <= I_SDA_DATA;
+            16'h000a: RAM[6][7:0] <= I_SDA_DATA;
+            16'h000b: RAM[7][7:0] <= I_SDA_DATA;
+            /*
+            if (I_REG_ADDR%2) // 如果是奇数地址
+            begin
+                RAM[I_REG_ADDR/2] <= {RAM[I_REG_ADDR/2][15:8], I_SDA_DATA}; // 低字节写入
+            end
+            else        // 如果是偶数数地址
+            begin
+                RAM[I_REG_ADDR/2] <= {I_SDA_DATA, RAM[I_REG_ADDR/2][7:0]}; // 高字节写入
+            end
+            */
+            endcase
+        end
+
 //        else if (I_WR_OP == 1'b1) // --- I2C Write
 //        begin
 //            //debug <= 1'b0;
