@@ -7,6 +7,7 @@
 //`define xx yy // or parameter xx = yy;
 //`endif
 //`undef XX
+`define _DEBUG_
 
 module TOP_tb();
 
@@ -698,7 +699,7 @@ begin
     #4000;
     #4000;
 //////////////////////
-
+`ifdef _DEBUG_
     //read ack
     // pos 1 
     scl=1;
@@ -886,6 +887,7 @@ begin
  	oe=0;
     #4000;
 ///////////////////////////////////////////////////////
+`endif
 //////////////////////
 
     //read nack and stop

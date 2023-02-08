@@ -2620,12 +2620,13 @@ begin
         if(I_RD_ACK)
         begin
             I_RD_ACK <= 1'b0;
-            I_SREG_SDA_OUT  <= I_RD_VAL[7:0];
+            //I_SREG_SDA_OUT  <= I_RD_VAL[7:0];
         end
         if(I_SCL_FALL) 
         begin
             I_SDA_OUT_OE <= 1'b1;
             sh8out_state <= sh8out_bit6;
+            I_SREG_SDA_OUT  <= I_RD_VAL[7:0];
         end
     end
 
