@@ -2061,9 +2061,10 @@ begin
             
             if(I_WR_OP)
             begin
-                ST_FSM_STATE    <= S_STOP;
+                ST_FSM_STATE    <= S_WRITE;
                 I_WR_OP         <= 0;
                 FF              <= 0;
+                {I_REG_ADDRH,I_REG_ADDR} <= {I_REG_ADDRH,I_REG_ADDR}+1'b1;
             end
         end
     end
