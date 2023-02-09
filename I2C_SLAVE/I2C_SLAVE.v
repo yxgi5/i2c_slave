@@ -2723,21 +2723,21 @@ begin
         ROReg1      <=   8'hA1;
         ROReg2      <=   8'hA2;
         ROReg3      <=   8'hA3;
-		
-		
-		RAM[8]      <=   8'h58;
-		RAM[9]      <=   8'h03;
-		RAM[10]     <=   8'h43;
-		RAM[11]     <=   8'h01;
-		RAM[12]     <=   8'h03;
-		RAM[13]     <=   8'h5E;
+
+
+        RAM[8]      <=   8'h58;
+        RAM[9]      <=   8'h03;
+        RAM[10]     <=   8'h43;
+        RAM[11]     <=   8'h01;
+        RAM[12]     <=   8'h03;
+        RAM[13]     <=   8'h5E;
         RAM[14]     <=   8'h06;
         RAM[15]     <=   8'hD8;
         RAM[16]     <=   8'h03;
         RAM[17]     <=   8'h78;
-		RAM[18]     <=   8'h03;
-		RAM[19]     <=   8'h48;
-		RAM[20]     <=   8'h21;
+        RAM[18]     <=   8'h03;
+        RAM[19]     <=   8'h48;
+        RAM[20]     <=   8'h21;
         RAM[21]     <=   8'h03;
         RAM[22]     <=   8'h0C;
         RAM[23]     <=   8'h01;
@@ -2753,7 +2753,7 @@ begin
         RAM[33]     <=   8'h0F;
         RAM[34]     <=   8'h83;
         RAM[35]     <=   8'h07;
-	
+
         //debug <= 1'b1;
 
 
@@ -2786,75 +2786,75 @@ begin
             //debug <= ROReg0[0];
 
             case ({I_REG_ADDRH,I_REG_ADDR})
-            16'h0000: I_RD_VAL <= ROReg0;  
-            16'h0001: I_RD_VAL <= ROReg1;  
-            16'h0002: I_RD_VAL <= ROReg2;  
-            16'h0003: I_RD_VAL <= ROReg3;  
-            16'h0004: I_RD_VAL <= RAM[0][7:0];  
-            16'h0005: I_RD_VAL <= RAM[1][7:0];  
-            16'h0006: I_RD_VAL <= RAM[2][7:0];  
-            16'h0007: I_RD_VAL <= RAM[3][7:0];  
-            16'h0008: I_RD_VAL <= RAM[4][7:0];  
-            16'h0009: I_RD_VAL <= RAM[5][7:0];  
-            16'h000a: I_RD_VAL <= RAM[6][7:0]; 
-            16'h000b: I_RD_VAL <= RAM[7][7:0];  
-			
-			16'h300A: I_RD_VAL <= RAM[8][7:0];
-			16'h300B: I_RD_VAL <= RAM[9][7:0];
-			16'h300C: I_RD_VAL <= RAM[10][7:0];
-			16'h302A: I_RD_VAL <= RAM[11][7:0];
-			16'h380E: I_RD_VAL <= RAM[12][7:0];
-			16'h380F: I_RD_VAL <= RAM[13][7:0];
-			16'h380C: I_RD_VAL <= RAM[14][7:0];
-			16'h380D: I_RD_VAL <= RAM[15][7:0];			
-			16'h388C: I_RD_VAL <= RAM[16][7:0];
-			16'h388D: I_RD_VAL <= RAM[17][7:0];		
-			16'h384C: I_RD_VAL <= RAM[18][7:0];
-			16'h384D: I_RD_VAL <= RAM[19][7:0];
-			16'h7000: I_RD_VAL <= RAM[20][7:0];
-			16'h7001: I_RD_VAL <= RAM[21][7:0];
-			16'h7002: I_RD_VAL <= RAM[22][7:0];
-			16'h7003: I_RD_VAL <= RAM[23][7:0];
-			16'h7004: I_RD_VAL <= RAM[24][7:0];
-			16'h7005: I_RD_VAL <= RAM[25][7:0];
-			16'h7006: I_RD_VAL <= RAM[26][7:0];
-			16'h7007: I_RD_VAL <= RAM[27][7:0];
-			16'h7008: I_RD_VAL <= RAM[28][7:0];
-			16'h7009: I_RD_VAL <= RAM[29][7:0];
-			16'h700A: I_RD_VAL <= RAM[30][7:0];
-			16'h700B: I_RD_VAL <= RAM[31][7:0];
-			16'h700C: I_RD_VAL <= RAM[32][7:0];
-			16'h700D: I_RD_VAL <= RAM[33][7:0];
-			16'h700E: I_RD_VAL <= RAM[34][7:0];
-			16'h700F: I_RD_VAL <= RAM[35][7:0];
-			
-			
-			
-			
+            16'h0000: I_RD_VAL <= ROReg0;
+            16'h0001: I_RD_VAL <= ROReg1;
+            16'h0002: I_RD_VAL <= ROReg2;
+            16'h0003: I_RD_VAL <= ROReg3;
+            16'h0004: I_RD_VAL <= RAM[0][7:0];
+            16'h0005: I_RD_VAL <= RAM[1][7:0];
+            16'h0006: I_RD_VAL <= RAM[2][7:0];
+            16'h0007: I_RD_VAL <= RAM[3][7:0];
+            16'h0008: I_RD_VAL <= RAM[4][7:0];
+            16'h0009: I_RD_VAL <= RAM[5][7:0];
+            16'h000a: I_RD_VAL <= RAM[6][7:0];
+            16'h000b: I_RD_VAL <= RAM[7][7:0];
+
+            16'h300A: I_RD_VAL <= RAM[8][7:0];
+            16'h300B: I_RD_VAL <= RAM[9][7:0];
+            16'h300C: I_RD_VAL <= RAM[10][7:0];
+            16'h302A: I_RD_VAL <= RAM[11][7:0];
+            16'h380E: I_RD_VAL <= RAM[12][7:0];
+            16'h380F: I_RD_VAL <= RAM[13][7:0];
+            16'h380C: I_RD_VAL <= RAM[14][7:0];
+            16'h380D: I_RD_VAL <= RAM[15][7:0];
+            16'h388C: I_RD_VAL <= RAM[16][7:0];
+            16'h388D: I_RD_VAL <= RAM[17][7:0];
+            16'h384C: I_RD_VAL <= RAM[18][7:0];
+            16'h384D: I_RD_VAL <= RAM[19][7:0];
+            16'h7000: I_RD_VAL <= RAM[20][7:0];
+            16'h7001: I_RD_VAL <= RAM[21][7:0];
+            16'h7002: I_RD_VAL <= RAM[22][7:0];
+            16'h7003: I_RD_VAL <= RAM[23][7:0];
+            16'h7004: I_RD_VAL <= RAM[24][7:0];
+            16'h7005: I_RD_VAL <= RAM[25][7:0];
+            16'h7006: I_RD_VAL <= RAM[26][7:0];
+            16'h7007: I_RD_VAL <= RAM[27][7:0];
+            16'h7008: I_RD_VAL <= RAM[28][7:0];
+            16'h7009: I_RD_VAL <= RAM[29][7:0];
+            16'h700A: I_RD_VAL <= RAM[30][7:0];
+            16'h700B: I_RD_VAL <= RAM[31][7:0];
+            16'h700C: I_RD_VAL <= RAM[32][7:0];
+            16'h700D: I_RD_VAL <= RAM[33][7:0];
+            16'h700E: I_RD_VAL <= RAM[34][7:0];
+            16'h700F: I_RD_VAL <= RAM[35][7:0];
+
+
+
+
             default: I_RD_VAL <= 8'hFF; // i2c读非法内部地址, 返回0xff
             endcase
 
 //            case ({I_REG_ADDRHHH,I_REG_ADDRHH,I_REG_ADDRH,I_REG_ADDR})
-//            32'h1C_80_09_00: I_RD_VAL <= ROReg0;  
-//            32'h98_04_05_00: I_RD_VAL <= ROReg1;  
-//            32'h08_83_0A_00: I_RD_VAL <= ROReg2;  
-//            32'h04_C2_02_00: I_RD_VAL <= ROReg3;  
-//            32'h18_80_09_00: I_RD_VAL <= ROReg4;  
-//            32'h04_00_30_00: I_RD_VAL <= ROReg5;  
-//            32'h20_00_30_00: I_RD_VAL <= ROReg6;  
-//            32'h0C_83_0A_00: I_RD_VAL <= ROReg7;  
-//            32'h2C_00_30_00: I_RD_VAL <= ROReg8;  
-//            32'h00_00_30_00: I_RD_VAL <= ROReg9; 
-//            32'h1C_80_09_00: I_RD_VAL <= ROReg10; 
-//            32'h0C_00_30_00: I_RD_VAL <= ROReg11; 
-//            32'h0004: I_RD_VAL <= RAM[0][7:0];  
-//            32'h0005: I_RD_VAL <= RAM[1][7:0];  
-//            32'h0006: I_RD_VAL <= RAM[2][7:0];  
-//            32'h0007: I_RD_VAL <= RAM[3][7:0];  
-//            32'h0008: I_RD_VAL <= RAM[4][7:0];  
-//            32'h0009: I_RD_VAL <= RAM[5][7:0];  
-//            32'h000a: I_RD_VAL <= RAM[6][7:0]; 
-//            32'h000b: I_RD_VAL <= RAM[7][7:0];  
+//            32'h1C_80_09_00: I_RD_VAL <= ROReg0;
+//            32'h98_04_05_00: I_RD_VAL <= ROReg1;
+//            32'h08_83_0A_00: I_RD_VAL <= ROReg2;
+//            32'h04_C2_02_00: I_RD_VAL <= ROReg3;
+//            32'h18_80_09_00: I_RD_VAL <= ROReg4;
+//            32'h04_00_30_00: I_RD_VAL <= ROReg5;
+//            32'h20_00_30_00: I_RD_VAL <= ROReg6;
+//            32'h0C_83_0A_00: I_RD_VAL <= ROReg7;
+//            32'h2C_00_30_00: I_RD_VAL <= ROReg8;
+//            32'h00_00_30_00: I_RD_VAL <= ROReg9;
+//            32'h1C_80_09_00: I_RD_VAL <= ROReg10;
+//            32'h0C_00_30_00: I_RD_VAL <= ROReg11;
+//            32'h0004: I_RD_VAL <= RAM[0][7:0];
+//            32'h0005: I_RD_VAL <= RAM[1][7:0];
+//            32'h0006: I_RD_VAL <= RAM[2][7:0];
+//            32'h0007: I_RD_VAL <= RAM[3][7:0];
+//            32'h0008: I_RD_VAL <= RAM[4][7:0];
+//            32'h0009: I_RD_VAL <= RAM[5][7:0];
+//            32'h000a: I_RD_VAL <= RAM[6][7:0];
+//            32'h000b: I_RD_VAL <= RAM[7][7:0];
 //            default: I_RD_VAL <= 32'h00_00_00_00; // i2c读非法内部地址, 返回
 //            endcase
 
@@ -2866,7 +2866,7 @@ begin
             //debug <= 1'b0;
             case ({I_REG_ADDRH,I_REG_ADDR})
             16'h0004: RAM[0][7:0] <= I_SDA_DATA;  //  high byte
-            16'h0005: RAM[1][7:0] <= I_SDA_DATA;   //  low byte
+            16'h0005: RAM[1][7:0] <= I_SDA_DATA;  //  low byte
             16'h0006: RAM[2][7:0] <= I_SDA_DATA;
             16'h0007: RAM[3][7:0] <= I_SDA_DATA;
             16'h0008: RAM[4][7:0] <= I_SDA_DATA;
